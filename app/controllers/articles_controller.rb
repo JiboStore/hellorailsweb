@@ -8,6 +8,7 @@ class ArticlesController < ApplicationController
   end
   
   def new
+    #@article = Article.new
   end
   
   def create
@@ -15,8 +16,14 @@ class ArticlesController < ApplicationController
     #render plain: params[:article].inspect
     #@article = Article.new(params[:article]) #causes ActiveModel::ForbiddenAttributesError
     @article = Article.new(article_params(params))
-    @article.save
-    redirect_to @article
+    if ( @article.save )
+      redirect_to @article
+    else
+      render "new"
+    
+      
+    end
+
   end
   
   private
