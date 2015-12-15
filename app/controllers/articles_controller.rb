@@ -15,6 +15,18 @@ class ArticlesController < ApplicationController
     @article = Article.find(params[:id])
   end
   
+  def create
+    #render plain: params[:article].inspect
+    #render plain: params[:article].inspect
+    #@article = Article.new(params[:article]) #causes ActiveModel::ForbiddenAttributesError
+    @article = Article.new(article_params(params))
+    if ( @article.save )
+      redirect_to @article
+    else
+      render "new"
+    end
+  end
+  
   def update
     @article = Article.find(params[:id])
     
@@ -25,19 +37,11 @@ class ArticlesController < ApplicationController
     end
   end
   
-  def create
-    #render plain: params[:article].inspect
-    #render plain: params[:article].inspect
-    #@article = Article.new(params[:article]) #causes ActiveModel::ForbiddenAttributesError
-    @article = Article.new(article_params(params))
-    if ( @article.save )
-      redirect_to @article
-    else
-      render "new"
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
     
-      
-    end
-
+    redirect_to articles_path
   end
   
   private
